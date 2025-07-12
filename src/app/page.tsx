@@ -1,8 +1,7 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ConnectWallet } from '@/components/web3/ConnectWallet';
 import { Briefcase, Users } from 'lucide-react';
 import Link from 'next/link';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { SignInButton } from '@/components/web3/SignInButton';
 
 export default function HomePage() {
   return (
@@ -26,7 +25,7 @@ export default function HomePage() {
             </svg>
             <h1 className="text-2xl font-bold text-primary font-headline">Co-Lance</h1>
           </Link>
-          <ConnectWallet />
+          {/* The ConnectWallet button was here and has been removed as requested */}
         </div>
       </header>
 
@@ -53,11 +52,9 @@ export default function HomePage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <Link href="/talent/dashboard" >
-                  <Button className="w-full" size="lg">
-                    I'm a Freelancer
-                  </Button>
-                </Link>
+                <SignInButton redirectTo="/talent/dashboard" className="w-full" size="lg">
+                  I'm a Freelancer
+                </SignInButton>
               </CardContent>
             </Card>
 
@@ -74,11 +71,9 @@ export default function HomePage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <Link href="/client/dashboard" >
-                  <Button className="w-full" size="lg">
-                    I'm a Client
-                  </Button>
-                </Link>
+                 <SignInButton redirectTo="/client/dashboard" className="w-full" size="lg">
+                  I'm a Client
+                </SignInButton>
               </CardContent>
             </Card>
           </div>
