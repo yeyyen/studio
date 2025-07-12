@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Briefcase, Users, Zap } from 'lucide-react';
+import { ConnectWallet } from '@/components/web3/ConnectWallet';
+import { Briefcase, Users } from 'lucide-react';
 import Link from 'next/link';
 
 export default function HomePage() {
@@ -25,9 +26,7 @@ export default function HomePage() {
             </svg>
             <h1 className="text-2xl font-bold text-primary font-headline">Co-Lance</h1>
           </Link>
-          <Button>
-            <Zap className="mr-2 h-4 w-4" /> Connect Wallet
-          </Button>
+          <ConnectWallet />
         </div>
       </header>
 

@@ -3,7 +3,8 @@ import { usePathname } from 'next/navigation'
 import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar'
 import { AppSidebarContent } from '@/components/shared/AppSidebarContent'
 import { Button } from '@/components/ui/button'
-import { Bell, UserCircle, Zap } from 'lucide-react'
+import { Bell, UserCircle } from 'lucide-react'
+import { ConnectWallet } from '@/components/web3/ConnectWallet'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -26,10 +27,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <Bell className="h-5 w-5" />
                 <span className="sr-only">Notifications</span>
               </Button>
-              <Button variant="secondary" size="sm">
-                <Zap className="mr-2 h-4 w-4" />
-                Connect Wallet
-              </Button>
+              <ConnectWallet />
               <Button variant="ghost" size="icon">
                 <UserCircle className="h-6 w-6" />
                 <span className="sr-only">Profile</span>
