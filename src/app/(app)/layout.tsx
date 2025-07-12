@@ -1,5 +1,7 @@
 
+
 "use client"
+import Link from 'next/link';
 import { usePathname } from 'next/navigation'
 import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar'
 import { AppSidebarContent } from '@/components/shared/AppSidebarContent'
@@ -25,9 +27,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               {/* Could add breadcrumbs or page title here */}
             </div>
             <div className="flex items-center gap-4">
-              <Button variant="ghost" size="icon">
-                <Mail className="h-5 w-5" />
-                <span className="sr-only">Messages</span>
+              <Button variant="ghost" size="icon" asChild>
+                <Link href={role === 'talent' ? '/talent/messages' : '/client/messages'}>
+                  <Mail className="h-5 w-5" />
+                  <span className="sr-only">Messages</span>
+                </Link>
               </Button>
                <DropdownMenu>
                 <DropdownMenuTrigger asChild>
