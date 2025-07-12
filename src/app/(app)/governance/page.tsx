@@ -1,13 +1,19 @@
+
+"use client";
+
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { CreateProposalDialog } from "@/components/governance/CreateProposalDialog";
-import { Landmark, Check, X, FileText, PlusCircle } from "lucide-react";
+import { Landmark, Check, X, FileText, Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const TOKEN_SYMBOL = "CLT";
+const VOTE_COST = 50;
 
-const proposals = [
+const initialProposals = [
   {
     id: "CIP-007",
     title: "Implement a New Fee Structure for a More Equitable Platform",
@@ -40,8 +46,41 @@ const getStatusColor = (status: string) => {
   }
 };
 
+type VoteType = "for" | "against";
 
 export default function GovernancePage() {
+  const [proposals, setProposals] = useState(initialProposals);
+  const [votedProposals, setVotedProposals] = useState<Record<string, VoteType>>({});
+  const [loadingVote, setLoadingVote] = useState<string | null>(null);
+  const { toast } = useToast();
+
+  const handleVote = (proposalId: string, voteType: VoteType) => {
+    setLoadingVote(`${proposalId}-${voteType}`);
+    // Simulate API call for voting
+    setTimeout(() => {
+      setProposals(currentProposals =>
+        currentProposals.map(p => {
+          if (p.id === proposalId) {
+            return {
+              ...p,
+              votes: {
+                ...p.votes,
+                [voteType]: p.votes[voteType] + VOTE_COST,
+              },
+            };
+          }
+          return p;
+        })
+      );
+      setVotedProposals(prev => ({ ...prev, [proposalId]: voteType }));
+      setLoadingVote(null);
+      toast({
+        title: "Vote Cast!",
+        description: `You voted '${voteType}' on proposal ${proposalId}. ${VOTE_COST} ${TOKEN_SYMBOL} was used.`,
+      });
+    }, 1500);
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-start">
@@ -60,7 +99,8 @@ export default function GovernancePage() {
           const totalVotes = proposal.votes.for + proposal.votes.against;
           const forPercentage = totalVotes > 0 ? (proposal.votes.for / totalVotes) * 100 : 0;
           const againstPercentage = totalVotes > 0 ? (proposal.votes.against / totalVotes) * 100 : 0;
-          
+          const hasVoted = !!votedProposals[proposal.id];
+
           return (
             <Card key={proposal.id}>
               <CardHeader>
@@ -92,8 +132,23 @@ export default function GovernancePage() {
                 <p>Voting ends {proposal.endDate}</p>
                 {proposal.status === "Active" ? (
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm">Vote Against</Button>
-                    <Button size="sm">Vote For</Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleVote(proposal.id, "against")}
+                      disabled={hasVoted || !!loadingVote}
+                    >
+                      {loadingVote === `${proposal.id}-against` ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                      Vote Against
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      onClick={() => handleVote(proposal.id, "for")}
+                      disabled={hasVoted || !!loadingVote}
+                    >
+                      {loadingVote === `${proposal.id}-for` ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                      Vote For
+                    </Button>
                   </div>
                 ) : (
                   <Button variant="secondary" size="sm" disabled>
