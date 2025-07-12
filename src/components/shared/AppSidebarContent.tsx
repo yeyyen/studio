@@ -2,7 +2,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useDisconnect } from "wagmi";
 import {
   SidebarHeader,
   SidebarMenu,
@@ -14,15 +15,14 @@ import {
 import {
   Briefcase,
   ClipboardCheck,
-  DollarSign,
   LayoutDashboard,
+  LogOut,
   Search,
-  Settings,
   Sparkles,
   Star,
   Users,
   Wallet,
-  CalendarClock
+  CalendarClock,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -44,7 +44,14 @@ const clientLinks = [
 
 export function AppSidebarContent({ role }: { role: 'talent' | 'client' }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { disconnect } = useDisconnect();
   const links = role === 'talent' ? talentLinks : clientLinks;
+
+  const handleLogout = () => {
+    disconnect();
+    router.push('/');
+  };
 
   return (
     <>
@@ -79,8 +86,10 @@ export function AppSidebarContent({ role }: { role: 'talent' | 'client' }) {
               className="w-full justify-start"
             >
               <Link href={link.href}>
-                <link.icon className="mr-3 h-5 w-5" />
-                <span>{link.label}</span>
+                <span data-sidebar="menu-button-span">
+                  <link.icon className="mr-3 h-5 w-5" />
+                  <span>{link.label}</span>
+                </span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -103,11 +112,9 @@ export function AppSidebarContent({ role }: { role: 'talent' | 'client' }) {
               user@email.com
             </p>
           </div>
-          <Link href="#">
-             <SidebarMenuButton size="icon" className="h-8 w-8 shrink-0">
-                <Settings className="h-4 w-4"/>
-             </SidebarMenuButton>
-          </Link>
+          <SidebarMenuButton size="icon" className="h-8 w-8 shrink-0" onClick={handleLogout} tooltip="Logout">
+            <LogOut className="h-4 w-4"/>
+          </SidebarMenuButton>
         </div>
       </SidebarFooter>
     </>
