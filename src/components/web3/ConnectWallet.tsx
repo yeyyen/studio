@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { Button } from '@/components/ui/button';
 import {
@@ -7,16 +8,25 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { Zap, LogOut, ChevronDown } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export function ConnectWallet() {
+  const [isClient, setIsClient] = useState(false);
   const { address, isConnected } = useAccount();
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
 
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const injectedConnector = connectors.find((c) => c.id === 'injected');
+
+  if (!isClient) {
+    return <Skeleton className="h-10 w-40" />;
+  }
 
   if (isConnected && address) {
     const truncatedAddress = `${address.slice(0, 6)}...${address.slice(-4)}`;
