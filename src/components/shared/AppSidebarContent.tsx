@@ -73,18 +73,16 @@ export function AppSidebarContent({ role }: { role: 'talent' | 'client' }) {
       <SidebarMenu className="flex-1 px-2">
         {links.map((link) => (
           <SidebarMenuItem key={link.href}>
-            <Link href={link.href} passHref>
-              <SidebarMenuButton
-                asChild
-                isActive={pathname === link.href}
-                className="w-full justify-start"
-              >
-                <>
-                  <link.icon className="mr-3 h-5 w-5" />
-                  <span>{link.label}</span>
-                </>
-              </SidebarMenuButton>
-            </Link>
+            <SidebarMenuButton
+              asChild
+              isActive={pathname === link.href}
+              className="w-full justify-start"
+            >
+              <Link href={link.href}>
+                <link.icon className="mr-3 h-5 w-5" />
+                <span>{link.label}</span>
+              </Link>
+            </SidebarMenuButton>
           </SidebarMenuItem>
         ))}
       </SidebarMenu>
