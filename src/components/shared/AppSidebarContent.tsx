@@ -25,6 +25,7 @@ import {
   CalendarClock,
   MessagesSquare,
   DollarSign,
+  Landmark,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -37,6 +38,7 @@ const talentLinks = [
   { href: "/talent/deadlines", label: "Deadlines", icon: CalendarClock },
   { href: "/talent/reviews", label: "Reviews", icon: Star },
   { href: "/talent/pricing-tool", label: "Pricing Tool", icon: Sparkles },
+  { href: "/governance", label: "Governance", icon: Landmark },
 ];
 
 const clientLinks = [
@@ -44,6 +46,7 @@ const clientLinks = [
   { href: "/client/projects", label: "My Projects", icon: Briefcase },
   { href: "/client/wallet", label: "E-Wallet", icon: Wallet },
   { href: "/client/reviews", label: "Rate Services", icon: ClipboardCheck },
+  { href: "/governance", label: "Governance", icon: Landmark },
 ];
 
 export function AppSidebarContent({ role }: { role: 'talent' | 'client' }) {
@@ -81,10 +84,10 @@ export function AppSidebarContent({ role }: { role: 'talent' | 'client' }) {
         </Link>
       </SidebarHeader>
 
-      <SidebarMenu className="flex-1 px-2 py-4">
+       <SidebarMenu className="flex-1 px-2 py-4 space-y-1">
         {links.map((link) => (
           <SidebarMenuItem key={link.href}>
-            <SidebarMenuButton
+             <SidebarMenuButton
               asChild
               isActive={pathname === link.href}
               className="w-full justify-start"
@@ -96,7 +99,29 @@ export function AppSidebarContent({ role }: { role: 'talent' | 'client' }) {
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}
-         <SidebarMenuItem>
+      </SidebarMenu>
+
+      <SidebarSeparator />
+
+      <SidebarFooter>
+         <SidebarMenu className="px-2 pb-2 space-y-1">
+           <SidebarMenuItem>
+             <div className="flex items-center gap-3 p-2">
+                <Avatar>
+                  <AvatarImage src="https://placehold.co/40x40.png" alt="@username" data-ai-hint="profile avatar" />
+                  <AvatarFallback>U</AvatarFallback>
+                </Avatar>
+                <div className="flex-1 overflow-hidden">
+                  <p className="text-sm font-semibold text-sidebar-foreground truncate">
+                    User Name
+                  </p>
+                  <p className="text-xs text-sidebar-foreground/70 truncate">
+                    user@email.com
+                  </p>
+                </div>
+              </div>
+          </SidebarMenuItem>
+           <SidebarMenuItem>
             <SidebarMenuButton
               className="w-full justify-start"
               onClick={handleLogout}
@@ -105,25 +130,7 @@ export function AppSidebarContent({ role }: { role: 'talent' | 'client' }) {
               <span>Logout</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
-      </SidebarMenu>
-
-      <SidebarSeparator />
-
-      <SidebarFooter>
-        <div className="flex items-center gap-3 p-2">
-          <Avatar>
-            <AvatarImage src="https://placehold.co/40x40.png" alt="@username" data-ai-hint="profile avatar" />
-            <AvatarFallback>U</AvatarFallback>
-          </Avatar>
-          <div className="flex-1 overflow-hidden">
-            <p className="text-sm font-semibold text-sidebar-foreground truncate">
-              User Name
-            </p>
-            <p className="text-xs text-sidebar-foreground/70 truncate">
-              user@email.com
-            </p>
-          </div>
-        </div>
+        </SidebarMenu>
       </SidebarFooter>
     </>
   );
