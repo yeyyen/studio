@@ -27,12 +27,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               {/* Could add breadcrumbs or page title here */}
             </div>
             <div className="flex items-center gap-4">
-              <Button variant="ghost" size="icon" asChild>
-                <Link href={role === 'talent' ? '/talent/messages' : '/client/messages'}>
-                  <Mail className="h-5 w-5" />
-                  <span className="sr-only">Messages</span>
-                </Link>
-              </Button>
                <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="relative">
@@ -74,6 +68,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+              <Button variant="ghost" size="icon" asChild>
+                <Link href={role === 'talent' ? '/talent/messages' : '/client/messages'}>
+                  <Mail className="h-5 w-5" />
+                  <span className="sr-only">Messages</span>
+                </Link>
+              </Button>
               <ConnectWallet />
               <Button variant="ghost" size="icon">
                 <UserCircle className="h-6 w-6" />
