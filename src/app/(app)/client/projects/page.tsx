@@ -30,9 +30,11 @@ const ProjectCard = ({ project }: { project: typeof projects[0] }) => (
         <CardHeader>
             <div className="flex justify-between items-start gap-4">
                 <div>
-                    <CardTitle className="text-xl hover:text-primary transition-colors">
-                        <Link href="#">{project.title}</Link>
-                    </CardTitle>
+                    <Link href={`/client/freelancer/${project.freelancer.id}`}>
+                        <CardTitle className="text-xl hover:text-primary transition-colors">
+                            {project.title}
+                        </CardTitle>
+                    </Link>
                     <CardDescription>Due by {project.dueDate}</CardDescription>
                 </div>
                  <Badge variant={getStatusVariant(project.status) as any}>{project.status}</Badge>
@@ -40,10 +42,12 @@ const ProjectCard = ({ project }: { project: typeof projects[0] }) => (
         </CardHeader>
         <CardContent className="space-y-4">
             <div className="flex items-center gap-4">
-                <Avatar>
-                    <AvatarImage src={project.freelancer.image} alt={project.freelancer.name} data-ai-hint={project.freelancer.aiHint} />
-                    <AvatarFallback>{project.freelancer.name.substring(0, 2)}</AvatarFallback>
-                </Avatar>
+                 <Link href={`/client/freelancer/${project.freelancer.id}`}>
+                    <Avatar>
+                        <AvatarImage src={project.freelancer.image} alt={project.freelancer.name} data-ai-hint={project.freelancer.aiHint} />
+                        <AvatarFallback>{project.freelancer.name.substring(0, 2)}</AvatarFallback>
+                    </Avatar>
+                 </Link>
                 <div>
                     <p className="font-semibold">{project.freelancer.name}</p>
                     <p className="text-sm text-muted-foreground">{project.freelancer.title}</p>
@@ -64,8 +68,14 @@ const ProjectCard = ({ project }: { project: typeof projects[0] }) => (
                     <span>Budget: <span className="font-semibold text-foreground">${project.budget.toLocaleString()}</span></span>
                 </div>
                 <div className="flex items-center gap-4">
-                    <Button variant="outline" size="sm"><MessageSquare className="mr-2 h-4 w-4" /> Message</Button>
-                     <Button size="sm">View Project</Button>
+                    <Button variant="outline" size="sm" asChild>
+                        <Link href="/client/messages">
+                            <MessageSquare className="mr-2 h-4 w-4" /> Message
+                        </Link>
+                    </Button>
+                    <Button size="sm" asChild>
+                        <Link href={`/client/freelancer/${project.freelancer.id}`}>View Profile</Link>
+                    </Button>
                 </div>
             </div>
         </CardContent>
