@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Wallet, Landmark, ArrowRight, LineChart, BadgeCheck } from "lucide-react";
+import { Wallet, Landmark, ArrowRight, LineChart, BadgeCheck, Loader2 } from "lucide-react";
 import {
   ChartConfig,
   ChartContainer,
@@ -15,6 +15,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
+import { useToast } from "@/hooks/use-toast";
 
 const TOKEN_NAME = "CLT";
 const TOKEN_TO_PHP_RATE = 1.00;
@@ -45,13 +46,38 @@ const chartConfig = {
 
 export default function TalentEarningsPage() {
   const [tokenAmount, setTokenAmount] = useState("");
+  const [isWithdrawing, setIsWithdrawing] = useState(false);
+  const { toast } = useToast();
   const phpValue = (parseFloat(tokenAmount) || 0) * TOKEN_TO_PHP_RATE;
+
+  const handleWithdraw = () => {
+    const amountToWithdraw = parseFloat(tokenAmount);
+    if (!amountToWithdraw || amountToWithdraw <= 0) {
+      toast({
+        variant: "destructive",
+        title: "Invalid Amount",
+        description: "Please enter a valid amount to withdraw.",
+      });
+      return;
+    }
+
+    setIsWithdrawing(true);
+    // Simulate API call for withdrawal
+    setTimeout(() => {
+      setIsWithdrawing(false);
+      setTokenAmount("");
+      toast({
+        title: "Withdrawal Successful!",
+        description: `₱${phpValue.toFixed(2)} is being processed and will be in your bank account within 3-5 business days.`,
+      });
+    }, 1500);
+  };
 
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold font-headline flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 text-accent"><path d="M12 12c-2-2.3-2-6.3.3-8.5 2.2-2.1 5.6-2.1 7.8-.1 2.2 2.1 2.2 5.9 0 8-2.2 2.1-5.6 2.1-7.8 0z"/><path d="M12 12c2 2.3 2 6.3-.3 8.5-2.2 2.1-5.6 2.1-7.8.1-2.2-2.1-2.2-5.9 0-8 2.2-2.1 5.6-2.1 7.8 0z"/><path d="M12 22V2"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 text-accent"><path d="M12 12c-2-2.3-2-6.3.3-8.5 2.2-2.1 5.6-2.1 7.8-.1 2.2 2.1 2.2 5.9 0 8-2.2 2.1-5.6 2.1-7.8 0z"/><path d="M12 12c2 2.3 2 6.3-.3 8.5-2.2 2.1-5.6 2.1-7.8.1-2.2-2.1-2.2-5.9 0 8 2.2-2.1 5.6-2.1 7.8 0z"/><path d="M12 22V2"/></svg>
           Earnings & Payouts
         </h1>
         <p className="text-muted-foreground">Track your earnings, convert tokens, and manage payouts.</p>
@@ -107,6 +133,7 @@ export default function TalentEarningsPage() {
                     placeholder="e.g., 500" 
                     value={tokenAmount}
                     onChange={(e) => setTokenAmount(e.target.value)}
+                    disabled={isWithdrawing}
                   />
                 </div>
                 <ArrowRight className="h-5 w-5 text-muted-foreground mb-2.5"/>
@@ -122,8 +149,17 @@ export default function TalentEarningsPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full">
-                <Landmark className="mr-2 h-4 w-4"/> Withdraw to Bank
+              <Button className="w-full" onClick={handleWithdraw} disabled={isWithdrawing}>
+                {isWithdrawing ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    <Landmark className="mr-2 h-4 w-4"/> Withdraw to Bank
+                  </>
+                )}
               </Button>
             </CardFooter>
           </Card>
@@ -193,5 +229,3 @@ export default function TalentEarningsPage() {
     </div>
   );
 }
-
-    
