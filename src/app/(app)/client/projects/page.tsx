@@ -35,7 +35,7 @@ const ProjectCard = ({ project }: { project: typeof projects[0] }) => (
                     </CardTitle>
                     <CardDescription>Due by {project.dueDate}</CardDescription>
                 </div>
-                 <Badge variant={getStatusVariant(project.status)}>{project.status}</Badge>
+                 <Badge variant={getStatusVariant(project.status) as any}>{project.status}</Badge>
             </div>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -99,51 +99,51 @@ export default function ClientProjectsPage() {
                 {ongoingProjects.map(project => (
                     <ProjectCard key={project.id} project={project} />
                 ))}
+                {ongoingProjects.length === 0 && (
+                    <Card className="flex flex-col items-center justify-center py-12 text-center lg:col-span-2">
+                        <CardContent>
+                            <Briefcase className="w-12 h-12 mx-auto text-muted-foreground" />
+                            <h3 className="mt-4 text-lg font-medium">No Ongoing Projects</h3>
+                            <p className="text-sm text-muted-foreground mt-1">Start a new project by hiring a freelancer.</p>
+                            <Button asChild className="mt-4">
+                                <Link href="/client/dashboard">Find Talent</Link>
+                            </Button>
+                        </CardContent>
+                    </Card>
+                )}
             </div>
-             {ongoingProjects.length === 0 && (
-                <Card className="flex flex-col items-center justify-center py-12 text-center">
-                    <CardContent>
-                        <Briefcase className="w-12 h-12 mx-auto text-muted-foreground" />
-                        <h3 className="mt-4 text-lg font-medium">No Ongoing Projects</h3>
-                        <p className="text-sm text-muted-foreground mt-1">Start a new project by hiring a freelancer.</p>
-                        <Button asChild className="mt-4">
-                            <Link href="/client/dashboard">Find Talent</Link>
-                        </Button>
-                    </CardContent>
-                </Card>
-            )}
         </TabsContent>
          <TabsContent value="completed" className="mt-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {completedProjects.map(project => (
                     <ProjectCard key={project.id} project={project} />
                 ))}
+                {completedProjects.length === 0 && (
+                    <Card className="flex flex-col items-center justify-center py-12 text-center lg:col-span-2">
+                         <CardContent>
+                            <Calendar className="w-12 h-12 mx-auto text-muted-foreground" />
+                            <h3 className="mt-4 text-lg font-medium">No Completed Projects Yet</h3>
+                            <p className="text-sm text-muted-foreground mt-1">Completed projects will appear here.</p>
+                        </CardContent>
+                    </Card>
+                )}
             </div>
-             {completedProjects.length === 0 && (
-                <Card className="flex flex-col items-center justify-center py-12 text-center">
-                     <CardContent>
-                        <Calendar className="w-12 h-12 mx-auto text-muted-foreground" />
-                        <h3 className="mt-4 text-lg font-medium">No Completed Projects Yet</h3>
-                        <p className="text-sm text-muted-foreground mt-1">Completed projects will appear here.</p>
-                    </CardContent>
-                </Card>
-            )}
         </TabsContent>
          <TabsContent value="cancelled" className="mt-6">
              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {cancelledProjects.map(project => (
                     <ProjectCard key={project.id} project={project} />
                 ))}
+                {cancelledProjects.length === 0 && (
+                    <Card className="flex flex-col items-center justify-center py-12 text-center lg:col-span-2">
+                        <CardContent>
+                            <Briefcase className="w-12 h-12 mx-auto text-muted-foreground" />
+                            <h3 className="mt-4 text-lg font-medium">No Cancelled Projects</h3>
+                            <p className="text-sm text-muted-foreground mt-1">Any cancelled projects will be shown here.</p>
+                        </CardContent>
+                    </Card>
+                )}
             </div>
-              {cancelledProjects.length === 0 && (
-                <Card className="flex flex-col items-center justify-center py-12 text-center">
-                    <CardContent>
-                        <Briefcase className="w-12 h-12 mx-auto text-muted-foreground" />
-                        <h3 className="mt-4 text-lg font-medium">No Cancelled Projects</h3>
-                        <p className="text-sm text-muted-foreground mt-1">Any cancelled projects will be shown here.</p>
-                    </CardContent>
-                </Card>
-            )}
         </TabsContent>
       </Tabs>
     </div>
