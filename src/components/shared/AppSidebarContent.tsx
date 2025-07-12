@@ -46,7 +46,6 @@ const clientLinks = [
   { href: "/client/projects", label: "My Projects", icon: Briefcase },
   { href: "/client/wallet", label: "E-Wallet", icon: Wallet },
   { href: "/client/reviews", label: "Rate Services", icon: ClipboardCheck },
-  { href: "/governance", label: "Governance", icon: Landmark },
 ];
 
 export function AppSidebarContent({ role }: { role: 'talent' | 'client' }) {
