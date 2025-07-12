@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAccount, useConnect } from 'wagmi';
-import { Button, ButtonProps } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -26,6 +26,9 @@ export function SignUpDialog({ role, redirectTo }: SignUpDialogProps) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
+  const [jobTitle, setJobTitle] = useState('');
+  const [location, setLocation] = useState('');
   const [isConnecting, setIsConnecting] = useState(false);
 
   const router = useRouter();
@@ -35,6 +38,10 @@ export function SignUpDialog({ role, redirectTo }: SignUpDialogProps) {
   const injectedConnector = connectors.find((c) => c.id === 'injected');
 
   const buttonLabel = role === 'talent' ? "I'm a Freelancer" : "I'm a Client";
+  
+  const isTalentFormComplete = role === 'talent' && name && email && contactNumber && jobTitle && location;
+  const isClientFormComplete = role === 'client' && name && email;
+  const isFormComplete = isTalentFormComplete || isClientFormComplete;
 
   useEffect(() => {
     if (isConnected && isConnecting) {
@@ -105,11 +112,52 @@ export function SignUpDialog({ role, redirectTo }: SignUpDialogProps) {
               placeholder="your@email.com"
             />
           </div>
+          {role === 'talent' && (
+            <>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="contact" className="text-right">
+                  Contact No.
+                </Label>
+                <Input
+                  id="contact"
+                  type="tel"
+                  value={contactNumber}
+                  onChange={(e) => setContactNumber(e.target.value)}
+                  className="col-span-3"
+                  placeholder="Your contact number"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="jobTitle" className="text-right">
+                  Job Title
+                </Label>
+                <Input
+                  id="jobTitle"
+                  value={jobTitle}
+                  onChange={(e) => setJobTitle(e.target.value)}
+                  className="col-span-3"
+                  placeholder="e.g., Frontend Developer"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="location" className="text-right">
+                  Location
+                </Label>
+                <Input
+                  id="location"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  className="col-span-3"
+                  placeholder="e.g., San Francisco, CA"
+                />
+              </div>
+            </>
+          )}
         </div>
         <DialogFooter>
           <Button
             onClick={handleCreateAccount}
-            disabled={!injectedConnector || isConnecting || !name || !email}
+            disabled={!injectedConnector || isConnecting || !isFormComplete}
             className="w-full"
           >
             {isConnecting ? (
