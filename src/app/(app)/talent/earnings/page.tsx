@@ -49,6 +49,7 @@ const chartConfig = {
 
 export default function TalentEarningsPage() {
   const [tokenAmount, setTokenAmount] = useState("");
+  const [balance, setBalance] = useState(1250);
   const [isWithdrawing, setIsWithdrawing] = useState(false);
   const [showWithdrawalDialog, setShowWithdrawalDialog] = useState(false);
   const [showReceiptDialog, setShowReceiptDialog] = useState(false);
@@ -56,7 +57,7 @@ export default function TalentEarningsPage() {
 
   const { toast } = useToast();
   const phpValue = (parseFloat(tokenAmount) || 0) * TOKEN_TO_PHP_RATE;
-
+  
   const handleWithdrawalRequest = () => {
     const amountToWithdraw = parseFloat(tokenAmount);
     if (!amountToWithdraw || amountToWithdraw <= 0) {
@@ -64,6 +65,14 @@ export default function TalentEarningsPage() {
         variant: "destructive",
         title: "Invalid Amount",
         description: "Please enter a valid amount to withdraw.",
+      });
+      return;
+    }
+     if (amountToWithdraw + TRANSACTION_FEE > balance) {
+      toast({
+        variant: "destructive",
+        title: "Insufficient Balance",
+        description: `Your balance is not enough to cover the withdrawal amount and the transaction fee.`,
       });
       return;
     }
@@ -85,6 +94,7 @@ export default function TalentEarningsPage() {
         fee: TRANSACTION_FEE,
       };
       
+      setBalance((prev) => prev - (withdrawnAmount + TRANSACTION_FEE));
       setReceiptData(newReceiptData);
       setIsWithdrawing(false);
       setShowWithdrawalDialog(false);
@@ -128,8 +138,8 @@ export default function TalentEarningsPage() {
               <Wallet className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">1,250 <span className="text-lg font-normal">{TOKEN_NAME}</span></div>
-              <p className="text-xs text-muted-foreground">≈ ₱1,250.00 PHP</p>
+              <div className="text-2xl font-bold">{balance.toLocaleString()} <span className="text-lg font-normal">{TOKEN_NAME}</span></div>
+              <p className="text-xs text-muted-foreground">≈ ₱{balance.toLocaleString()}.00 PHP</p>
             </CardContent>
           </Card>
           <Card>
