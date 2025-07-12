@@ -58,6 +58,14 @@ export default function GovernancePage() {
   const { toast } = useToast();
 
   const handleVote = (proposalId: string, voteType: VoteType) => {
+    if (userBalance < VOTE_COST) {
+      toast({
+        variant: "destructive",
+        title: "Insufficient Balance",
+        description: `You need at least ${VOTE_COST} ${TOKEN_SYMBOL} to vote.`,
+      });
+      return;
+    }
     setLoadingVote(`${proposalId}-${voteType}`);
     // Simulate API call for voting
     setTimeout(() => {
@@ -124,6 +132,7 @@ export default function GovernancePage() {
           const forPercentage = totalVotes > 0 ? (proposal.votes.for / totalVotes) * 100 : 0;
           const againstPercentage = totalVotes > 0 ? (proposal.votes.against / totalVotes) * 100 : 0;
           const hasVoted = !!votedProposals[proposal.id];
+          const canVote = userBalance >= VOTE_COST;
 
           return (
             <Card key={proposal.id}>
@@ -161,7 +170,7 @@ export default function GovernancePage() {
                         variant="outline" 
                         size="sm" 
                         onClick={() => handleVote(proposal.id, "against")}
-                        disabled={hasVoted || !!loadingVote}
+                        disabled={hasVoted || !!loadingVote || !canVote}
                       >
                         {loadingVote === `${proposal.id}-against` ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                         Vote Against
@@ -171,7 +180,7 @@ export default function GovernancePage() {
                       <Button 
                         size="sm" 
                         onClick={() => handleVote(proposal.id, "for")}
-                        disabled={hasVoted || !!loadingVote}
+                        disabled={hasVoted || !!loadingVote || !canVote}
                       >
                         {loadingVote === `${proposal.id}-for` ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                         Vote For
