@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { CreateProposalDialog } from "@/components/governance/CreateProposalDialog";
-import { Landmark, Check, X, FileText, Loader2 } from "lucide-react";
+import { Landmark, Check, X, FileText, Loader2, Info } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const TOKEN_SYMBOL = "CLT";
 const VOTE_COST = 50;
@@ -52,6 +53,8 @@ export default function GovernancePage() {
   const [proposals, setProposals] = useState(initialProposals);
   const [votedProposals, setVotedProposals] = useState<Record<string, VoteType>>({});
   const [loadingVote, setLoadingVote] = useState<string | null>(null);
+  // Simulating user's balance
+  const [userBalance, setUserBalance] = useState(1250); 
   const { toast } = useToast();
 
   const handleVote = (proposalId: string, voteType: VoteType) => {
@@ -73,6 +76,7 @@ export default function GovernancePage() {
         })
       );
       setVotedProposals(prev => ({ ...prev, [proposalId]: voteType }));
+      setUserBalance(prevBalance => prevBalance - VOTE_COST);
       setLoadingVote(null);
       toast({
         title: "Vote Cast!",
@@ -80,6 +84,26 @@ export default function GovernancePage() {
       });
     }, 1500);
   };
+
+  const VoteButtonTooltip = ({ children }: { children: React.ReactNode }) => (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>{children}</TooltipTrigger>
+        <TooltipContent>
+          <div className="flex flex-col gap-1.5 p-1 text-sm">
+            <div className="flex justify-between gap-4">
+              <span className="text-muted-foreground">Cost:</span>
+              <span className="font-semibold">{VOTE_COST} {TOKEN_SYMBOL}</span>
+            </div>
+             <div className="flex justify-between gap-4">
+              <span className="text-muted-foreground">Your Balance:</span>
+              <span className="font-semibold">{userBalance.toLocaleString()} {TOKEN_SYMBOL}</span>
+            </div>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
 
   return (
     <div className="space-y-8">
@@ -132,23 +156,27 @@ export default function GovernancePage() {
                 <p>Voting ends {proposal.endDate}</p>
                 {proposal.status === "Active" ? (
                   <div className="flex gap-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      onClick={() => handleVote(proposal.id, "against")}
-                      disabled={hasVoted || !!loadingVote}
-                    >
-                      {loadingVote === `${proposal.id}-against` ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                      Vote Against
-                    </Button>
-                    <Button 
-                      size="sm" 
-                      onClick={() => handleVote(proposal.id, "for")}
-                      disabled={hasVoted || !!loadingVote}
-                    >
-                      {loadingVote === `${proposal.id}-for` ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                      Vote For
-                    </Button>
+                    <VoteButtonTooltip>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => handleVote(proposal.id, "against")}
+                        disabled={hasVoted || !!loadingVote}
+                      >
+                        {loadingVote === `${proposal.id}-against` ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                        Vote Against
+                      </Button>
+                    </VoteButtonTooltip>
+                    <VoteButtonTooltip>
+                      <Button 
+                        size="sm" 
+                        onClick={() => handleVote(proposal.id, "for")}
+                        disabled={hasVoted || !!loadingVote}
+                      >
+                        {loadingVote === `${proposal.id}-for` ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                        Vote For
+                      </Button>
+                    </VoteButtonTooltip>
                   </div>
                 ) : (
                   <Button variant="secondary" size="sm" disabled>
