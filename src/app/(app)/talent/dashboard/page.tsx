@@ -1,16 +1,34 @@
+
+"use client";
+
+import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Briefcase, CalendarClock, Edit, Mail, MessageSquare, Star, UserPlus } from "lucide-react";
+import { Briefcase, CalendarClock, Mail, MessageSquare, Star, UserPlus } from "lucide-react";
 import Image from 'next/image';
+import { EditProfileDialog, type ProfileData } from '@/components/talent/EditProfileDialog';
+
+const initialProfileData: ProfileData = {
+  name: 'Jane Doe',
+  title: 'UX/UI Designer & Web Developer',
+  skills: ['UI Design', 'UX Research', 'React', 'Next.js', 'Figma'],
+  avatar: 'https://placehold.co/128x128.png',
+  banner: 'https://placehold.co/1200x300.png',
+};
 
 export default function TalentDashboardPage() {
+  const [profile, setProfile] = useState<ProfileData>(initialProfileData);
+
+  const handleProfileSave = (newProfileData: ProfileData) => {
+    setProfile(newProfileData);
+  };
+
   return (
     <div className="space-y-8">
       <Card className="overflow-hidden">
         <Image
-          src="https://placehold.co/1200x300.png"
+          src={profile.banner}
           alt="Profile Banner"
           width={1200}
           height={300}
@@ -20,14 +38,14 @@ export default function TalentDashboardPage() {
         <CardContent className="p-6">
           <div className="flex flex-col sm:flex-row gap-6 -mt-20">
             <Avatar className="h-32 w-32 border-4 border-background">
-              <AvatarImage src="https://placehold.co/128x128.png" alt="Jane Doe" data-ai-hint="professional woman"/>
-              <AvatarFallback>JD</AvatarFallback>
+              <AvatarImage src={profile.avatar} alt={profile.name} data-ai-hint="professional woman"/>
+              <AvatarFallback>{profile.name.substring(0,2)}</AvatarFallback>
             </Avatar>
             <div className="flex-1 pt-20 sm:pt-0">
               <div className="flex justify-between items-start">
                 <div>
-                  <h1 className="text-3xl font-bold font-headline">Jane Doe</h1>
-                  <p className="text-muted-foreground">UX/UI Designer & Web Developer</p>
+                  <h1 className="text-3xl font-bold font-headline">{profile.name}</h1>
+                  <p className="text-muted-foreground">{profile.title}</p>
                   <div className="flex items-center gap-1 mt-1">
                     <Star className="w-4 h-4 text-accent fill-accent"/>
                     <Star className="w-4 h-4 text-accent fill-accent"/>
@@ -37,16 +55,12 @@ export default function TalentDashboardPage() {
                     <span className="text-sm text-muted-foreground ml-1">(12 Reviews)</span>
                   </div>
                 </div>
-                <Button>
-                  <Edit className="mr-2 h-4 w-4" /> Edit Profile
-                </Button>
+                <EditProfileDialog profile={profile} onSave={handleProfileSave} />
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
-                <Badge variant="secondary">UI Design</Badge>
-                <Badge variant="secondary">UX Research</Badge>
-                <Badge variant="secondary">React</Badge>
-                <Badge variant="secondary">Next.js</Badge>
-                <Badge variant="secondary">Figma</Badge>
+                {profile.skills.map(skill => (
+                  <Badge key={skill} variant="secondary">{skill}</Badge>
+                ))}
               </div>
             </div>
           </div>
