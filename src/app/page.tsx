@@ -53,7 +53,7 @@ export default function HomePage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <Link href="/talent/dashboard" legacyBehavior>
+                <Link href="/talent/dashboard" >
                   <Button className="w-full" size="lg">
                     I'm a Freelancer
                   </Button>
@@ -74,7 +74,7 @@ export default function HomePage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <Link href="/client/dashboard" legacyBehavior>
+                <Link href="/client/dashboard" >
                   <Button className="w-full" size="lg">
                     I'm a Client
                   </Button>

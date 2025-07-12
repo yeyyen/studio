@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -72,13 +73,16 @@ export function AppSidebarContent({ role }: { role: 'talent' | 'client' }) {
       <SidebarMenu className="flex-1 px-2">
         {links.map((link) => (
           <SidebarMenuItem key={link.href}>
-            <Link href={link.href} legacyBehavior passHref>
+            <Link href={link.href} passHref>
               <SidebarMenuButton
+                asChild
                 isActive={pathname === link.href}
                 className="w-full justify-start"
               >
-                <link.icon className="mr-3 h-5 w-5" />
-                <span>{link.label}</span>
+                <>
+                  <link.icon className="mr-3 h-5 w-5" />
+                  <span>{link.label}</span>
+                </>
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
@@ -101,7 +105,7 @@ export function AppSidebarContent({ role }: { role: 'talent' | 'client' }) {
               user@email.com
             </p>
           </div>
-          <Link href="#" legacyBehavior passHref>
+          <Link href="#">
              <SidebarMenuButton size="icon" className="h-8 w-8 shrink-0">
                 <Settings className="h-4 w-4"/>
              </SidebarMenuButton>
