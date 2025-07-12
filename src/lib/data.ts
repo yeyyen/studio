@@ -1,3 +1,4 @@
+
 export const freelancers = [
   {
     id: "john-doe",
@@ -124,5 +125,53 @@ export const freelancers = [
         { title: "Data Analysis Report", description: "In-depth analysis & viz.", price: 1000 },
         { title: "Custom ML Model", description: "Build and train a model.", price: 4000 },
     ]
+  },
+];
+
+export const projects = [
+  {
+    id: 'proj-01',
+    title: "E-commerce Platform Migration",
+    status: "In Progress",
+    progress: 75,
+    dueDate: "2024-08-15",
+    budget: 5000,
+    freelancer: freelancers[0], // John Doe
+  },
+  {
+    id: 'proj-02',
+    title: "New Branding for SaaS Startup",
+    status: "In Progress",
+    progress: 40,
+    dueDate: "2024-09-01",
+    budget: 2500,
+    freelancer: freelancers[1], // Maria Garcia
+  },
+  {
+    id: 'proj-03',
+    title: "Cloud Cost Optimization",
+    status: "Completed",
+    progress: 100,
+    dueDate: "2024-07-20",
+    budget: 1800,
+    freelancer: freelancers[2], // Sam Wilson
+  },
+  {
+    id: 'proj-04',
+    title: "Quarterly SEO & Content Plan",
+    status: "Completed",
+    progress: 100,
+    dueDate: "2024-07-10",
+    budget: 1500,
+    freelancer: freelancers[3], // Emily Carter
+  },
+  {
+    id: 'proj-05',
+    title: "Fitness App MVP",
+    status: "Cancelled",
+    progress: 20,
+    dueDate: "2024-06-30",
+    budget: 7000,
+    freelancer: freelancers[4], // David Lee
   },
 ];
