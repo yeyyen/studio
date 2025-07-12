@@ -24,7 +24,6 @@ import {
   Wallet,
   CalendarClock,
   MessagesSquare,
-  Bell,
   DollarSign,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
