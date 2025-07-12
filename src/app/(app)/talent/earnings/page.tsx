@@ -1,22 +1,193 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DollarSign } from "lucide-react";
+
+"use client";
+
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { DollarSign, Wallet, Landmark, ArrowRight, LineChart, BadgeCheck } from "lucide-react";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart"
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
+
+const TOKEN_NAME = "CLT";
+const TOKEN_TO_USD_RATE = 1.50;
+
+const transactions = [
+  { id: "txn-01", date: "2024-07-20", description: "Project Phoenix Completion", amount: `+500 ${TOKEN_NAME}`, status: "Completed" },
+  { id: "txn-02", date: "2024-07-18", description: "UI Kit Design Gig", amount: `+150 ${TOKEN_NAME}`, status: "Completed" },
+  { id: "txn-03", date: "2024-07-15", description: "Withdrawal to Bank", amount: `-$300.00`, status: "Success" },
+  { id: "txn-04", date: "2024-07-10", description: "Logo Design for WebCo", amount: `+200 ${TOKEN_NAME}`, status: "Completed" },
+  { id: "txn-05", date: "2024-07-05", description: "Project Apollo Milestone 1", amount: `+300 ${TOKEN_NAME}`, status: "Completed" },
+];
+
+const chartData = [
+  { month: "January", earnings: 1860 },
+  { month: "February", earnings: 2050 },
+  { month: "March", earnings: 2370 },
+  { month: "April", earnings: 1980 },
+  { month: "May", earnings: 2540 },
+  { month: "June", earnings: 3120 },
+]
+
+const chartConfig = {
+  earnings: {
+    label: "Earnings (USD)",
+    color: "hsl(var(--primary))",
+  },
+} satisfies ChartConfig
 
 export default function TalentEarningsPage() {
+  const [tokenAmount, setTokenAmount] = useState("");
+  const usdValue = (parseFloat(tokenAmount) || 0) * TOKEN_TO_USD_RATE;
+
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold font-headline flex items-center gap-2">
           <DollarSign className="w-8 h-8 text-accent" />
-          Earnings
+          Earnings & Payouts
         </h1>
-        <p className="text-muted-foreground">Track your earnings and payouts.</p>
+        <p className="text-muted-foreground">Track your earnings, convert tokens, and manage payouts.</p>
       </div>
-      <Card>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">Current Balance</CardTitle>
+            <Wallet className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">1,250 <span className="text-lg font-normal">{TOKEN_NAME}</span></div>
+            <p className="text-xs text-muted-foreground">≈ $1,875.00 USD</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">Lifetime Earnings</CardTitle>
+            <LineChart className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">$8,450.00</div>
+            <p className="text-xs text-muted-foreground">From 23 completed projects</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">Pending Clearance</CardTitle>
+            <BadgeCheck className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">350 <span className="text-lg font-normal">{TOKEN_NAME}</span></div>
+            <p className="text-xs text-muted-foreground">Available in 3 days</p>
+          </CardContent>
+        </Card>
+      </div>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div className="lg:col-span-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>Convert & Payout</CardTitle>
+              <CardDescription>Convert your {TOKEN_NAME} tokens to USD for withdrawal.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-end gap-4">
+                <div className="flex-1 space-y-2">
+                  <Label htmlFor="token-amount">Amount ({TOKEN_NAME})</Label>
+                  <Input 
+                    id="token-amount" 
+                    type="number" 
+                    placeholder="e.g., 500" 
+                    value={tokenAmount}
+                    onChange={(e) => setTokenAmount(e.target.value)}
+                  />
+                </div>
+                <ArrowRight className="h-5 w-5 text-muted-foreground mb-2.5"/>
+                <div className="flex-1 space-y-2">
+                  <Label>Value (USD)</Label>
+                  <div className="text-2xl font-bold h-10 flex items-center">
+                    ${usdValue.toFixed(2)}
+                  </div>
+                </div>
+              </div>
+              <div className="text-sm text-muted-foreground">
+                Conversion Rate: 1 {TOKEN_NAME} = ${TOKEN_TO_USD_RATE.toFixed(2)} USD
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button className="w-full">
+                <Landmark className="mr-2 h-4 w-4"/> Withdraw to Bank
+              </Button>
+            </CardFooter>
+          </Card>
+        </div>
+        <div className="lg:col-span-3">
+           <Card>
+            <CardHeader>
+              <CardTitle>Earnings History</CardTitle>
+              <CardDescription>A log of your recent transactions.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Description</TableHead>
+                    <TableHead className="text-right">Amount</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {transactions.slice(0, 3).map((txn) => (
+                    <TableRow key={txn.id}>
+                      <TableCell className="text-muted-foreground">{txn.date}</TableCell>
+                      <TableCell className="font-medium">{txn.description}</TableCell>
+                      <TableCell className={`text-right font-semibold ${txn.amount.startsWith('+') ? 'text-green-600' : 'text-foreground'}`}>
+                        {txn.amount}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+       <Card>
         <CardHeader>
-          <CardTitle>Earnings Overview</CardTitle>
+          <CardTitle>Monthly Earnings Chart</CardTitle>
+          <CardDescription>Your earnings in USD for the last 6 months.</CardDescription>
         </CardHeader>
         <CardContent>
-          <p>This is where you can see your earnings. This page is currently under construction.</p>
+           <ChartContainer config={chartConfig} className="h-[250px] w-full">
+            <BarChart accessibilityLayer data={chartData}>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+              />
+              <YAxis
+                tickFormatter={(value) => `$${value}`}
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+               />
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideIndicator />}
+              />
+              <Bar dataKey="earnings" fill="var(--color-earnings)" radius={8} />
+            </BarChart>
+          </ChartContainer>
         </CardContent>
       </Card>
     </div>
