@@ -81,7 +81,7 @@ export function AppSidebarContent({ role }: { role: 'talent' | 'client' }) {
         </Link>
       </SidebarHeader>
 
-      <SidebarMenu className="flex-1 px-2">
+      <SidebarMenu className="flex-1 px-2 py-4">
         {links.map((link) => (
           <SidebarMenuItem key={link.href}>
             <SidebarMenuButton
@@ -90,17 +90,15 @@ export function AppSidebarContent({ role }: { role: 'talent' | 'client' }) {
               className="w-full justify-start"
             >
               <Link href={link.href}>
-                <span data-sidebar="menu-button-span">
-                  <link.icon className="mr-3 h-5 w-5" />
-                  <span>{link.label}</span>
-                </span>
+                <link.icon className="mr-3 h-5 w-5" />
+                <span>{link.label}</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}
          <SidebarMenuItem>
             <SidebarMenuButton
-              className="w-full justify-start mt-2"
+              className="w-full justify-start"
               onClick={handleLogout}
             >
               <LogOut className="mr-3 h-5 w-5" />
