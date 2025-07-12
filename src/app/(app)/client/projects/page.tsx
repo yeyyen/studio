@@ -110,15 +110,13 @@ export default function ClientProjectsPage() {
                     <ProjectCard key={project.id} project={project} />
                 ))}
                 {ongoingProjects.length === 0 && (
-                    <Card className="lg:col-span-2">
-                        <div className="flex flex-col items-center justify-center py-12 text-center">
-                            <Briefcase className="w-12 h-12 mx-auto text-muted-foreground" />
-                            <h3 className="mt-4 text-lg font-medium">No Ongoing Projects</h3>
-                            <p className="text-sm text-muted-foreground mt-1">Start a new project by hiring a freelancer.</p>
-                            <Button asChild className="mt-4">
-                                <Link href="/client/dashboard">Find Talent</Link>
-                            </Button>
-                        </div>
+                    <Card className="flex flex-col items-center justify-center py-12 text-center lg:col-span-2">
+                        <Briefcase className="w-12 h-12 mx-auto text-muted-foreground" />
+                        <h3 className="mt-4 text-lg font-medium">No Ongoing Projects</h3>
+                        <p className="text-sm text-muted-foreground mt-1">Start a new project by hiring a freelancer.</p>
+                        <Button asChild className="mt-4">
+                            <Link href="/client/dashboard">Find Talent</Link>
+                        </Button>
                     </Card>
                 )}
             </div>
@@ -129,12 +127,10 @@ export default function ClientProjectsPage() {
                     <ProjectCard key={project.id} project={project} />
                 ))}
                 {completedProjects.length === 0 && (
-                    <Card className="lg:col-span-2">
-                        <div className="flex flex-col items-center justify-center py-12 text-center">
-                            <Calendar className="w-12 h-12 mx-auto text-muted-foreground" />
-                            <h3 className="mt-4 text-lg font-medium">No Completed Projects Yet</h3>
-                            <p className="text-sm text-muted-foreground mt-1">Completed projects will appear here.</p>
-                        </div>
+                    <Card className="flex flex-col items-center justify-center py-12 text-center lg:col-span-2">
+                        <Calendar className="w-12 h-12 mx-auto text-muted-foreground" />
+                        <h3 className="mt-4 text-lg font-medium">No Completed Projects Yet</h3>
+                        <p className="text-sm text-muted-foreground mt-1">Completed projects will appear here.</p>
                     </Card>
                 )}
             </div>
@@ -145,12 +141,10 @@ export default function ClientProjectsPage() {
                     <ProjectCard key={project.id} project={project} />
                 ))}
                 {cancelledProjects.length === 0 && (
-                    <Card className="lg:col-span-2">
-                        <div className="flex flex-col items-center justify-center py-12 text-center">
-                            <XCircle className="w-12 h-12 mx-auto text-muted-foreground" />
-                            <h3 className="mt-4 text-lg font-medium">No Cancelled Projects</h3>
-                            <p className="text-sm text-muted-foreground mt-1">Any cancelled projects will be shown here.</p>
-                        </div>
+                    <Card className="flex flex-col items-center justify-center py-12 text-center lg:col-span-2">
+                        <XCircle className="w-12 h-12 mx-auto text-muted-foreground" />
+                        <h3 className="mt-4 text-lg font-medium">No Cancelled Projects</h3>
+                        <p className="text-sm text-muted-foreground mt-1">Any cancelled projects will be shown here.</p>
                     </Card>
                 )}
             </div>
