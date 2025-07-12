@@ -1,0 +1,51 @@
+{
+  "node_modules\\@wagmi\\connectors\\dist\\coinbaseWallet.js -> @coinbase/wallet-sdk": {
+    "id": 45811,
+    "files": [
+      "static/chunks/811.e0d1b40c42b4198b.js",
+      "static/chunks/753.0459ac22e3b9e5c2.js"
+    ]
+  },
+  "node_modules\\@wagmi\\connectors\\dist\\walletConnect.js -> @walletconnect/ethereum-provider": {
+    "id": 43152,
+    "files": [
+      "static/chunks/152.a1fc7f88dae72034.js"
+    ]
+  },
+  "node_modules\\@wagmi\\core\\dist\\chunk-TSH6VVF4.js -> viem/ens": {
+    "id": 26765,
+    "files": [
+      "static/chunks/765.75c94559b3615d8c.js"
+    ]
+  },
+  "node_modules\\@walletconnect\\ethereum-provider\\dist\\index.es.js -> @walletconnect/modal": {
+    "id": 59343,
+    "files": [
+      "static/chunks/343.066bb306d69b4132.js"
+    ]
+  },
+  "node_modules\\@walletconnect\\modal\\dist\\index.js -> @walletconnect/modal-ui": {
+    "id": 41391,
+    "files": [
+      "static/chunks/391.58d4118491c093ee.js"
+    ]
+  },
+  "node_modules\\@web3modal\\scaffold\\dist\\esm\\src\\client.js -> ./modal/w3m-modal/index.js": {
+    "id": 90078,
+    "files": []
+  },
+  "node_modules\\@web3modal\\scaffold\\dist\\esm\\src\\client.js -> @web3modal/ui": {
+    "id": 95128,
+    "files": []
+  },
+  "node_modules\\viem\\_esm\\actions\\public\\call.js -> ../../utils/ccip.js": {
+    "id": 10422,
+    "files": [
+      "static/chunks/422.9225da49a5498aad.js"
+    ]
+  },
+  "node_modules\\viem\\_esm\\utils\\signature\\recoverPublicKey.js -> @noble/curves/secp256k1": {
+    "id": null,
+    "files": []
+  }
+}

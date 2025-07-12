@@ -1,0 +1,1 @@
+// This file is not used in Next.js projects. All routing and rendering is handled via the pages/ directory.
