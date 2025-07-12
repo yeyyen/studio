@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { DollarSign, Wallet, Landmark, ArrowRight, LineChart, BadgeCheck } from "lucide-react";
+import { Wallet, Landmark, ArrowRight, LineChart, BadgeCheck } from "lucide-react";
 import {
   ChartConfig,
   ChartContainer,
@@ -17,12 +17,12 @@ import {
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
 const TOKEN_NAME = "CLT";
-const TOKEN_TO_USD_RATE = 1.50;
+const TOKEN_TO_PHP_RATE = 1.00;
 
 const transactions = [
   { id: "txn-01", date: "2024-07-20", description: "Project Phoenix Completion", amount: `+500 ${TOKEN_NAME}`, status: "Completed" },
   { id: "txn-02", date: "2024-07-18", description: "UI Kit Design Gig", amount: `+150 ${TOKEN_NAME}`, status: "Completed" },
-  { id: "txn-03", date: "2024-07-15", description: "Withdrawal to Bank", amount: `-$300.00`, status: "Success" },
+  { id: "txn-03", date: "2024-07-15", description: "Withdrawal to Bank", amount: `-₱300.00`, status: "Success" },
   { id: "txn-04", date: "2024-07-10", description: "Logo Design for WebCo", amount: `+200 ${TOKEN_NAME}`, status: "Completed" },
   { id: "txn-05", date: "2024-07-05", description: "Project Apollo Milestone 1", amount: `+300 ${TOKEN_NAME}`, status: "Completed" },
 ];
@@ -38,20 +38,20 @@ const chartData = [
 
 const chartConfig = {
   earnings: {
-    label: "Earnings (USD)",
+    label: "Earnings (PHP)",
     color: "hsl(var(--primary))",
   },
 } satisfies ChartConfig
 
 export default function TalentEarningsPage() {
   const [tokenAmount, setTokenAmount] = useState("");
-  const usdValue = (parseFloat(tokenAmount) || 0) * TOKEN_TO_USD_RATE;
+  const phpValue = (parseFloat(tokenAmount) || 0) * TOKEN_TO_PHP_RATE;
 
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold font-headline flex items-center gap-2">
-          <DollarSign className="w-8 h-8 text-accent" />
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 text-accent"><path d="M12 12c-2-2.3-2-6.3.3-8.5 2.2-2.1 5.6-2.1 7.8-.1 2.2 2.1 2.2 5.9 0 8-2.2 2.1-5.6 2.1-7.8 0z"/><path d="M12 12c2 2.3 2 6.3-.3 8.5-2.2 2.1-5.6 2.1-7.8.1-2.2-2.1-2.2-5.9 0-8 2.2-2.1 5.6-2.1 7.8 0z"/><path d="M12 22V2"/></svg>
           Earnings & Payouts
         </h1>
         <p className="text-muted-foreground">Track your earnings, convert tokens, and manage payouts.</p>
@@ -65,7 +65,7 @@ export default function TalentEarningsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">1,250 <span className="text-lg font-normal">{TOKEN_NAME}</span></div>
-            <p className="text-xs text-muted-foreground">≈ $1,875.00 USD</p>
+            <p className="text-xs text-muted-foreground">≈ ₱1,250.00 PHP</p>
           </CardContent>
         </Card>
         <Card>
@@ -74,7 +74,7 @@ export default function TalentEarningsPage() {
             <LineChart className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$8,450.00</div>
+            <div className="text-2xl font-bold">₱8,450.00</div>
             <p className="text-xs text-muted-foreground">From 23 completed projects</p>
           </CardContent>
         </Card>
@@ -95,7 +95,7 @@ export default function TalentEarningsPage() {
           <Card>
             <CardHeader>
               <CardTitle>Convert & Payout</CardTitle>
-              <CardDescription>Convert your {TOKEN_NAME} tokens to USD for withdrawal.</CardDescription>
+              <CardDescription>Convert your {TOKEN_NAME} tokens to PHP for withdrawal.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-end gap-4">
@@ -111,14 +111,14 @@ export default function TalentEarningsPage() {
                 </div>
                 <ArrowRight className="h-5 w-5 text-muted-foreground mb-2.5"/>
                 <div className="flex-1 space-y-2">
-                  <Label>Value (USD)</Label>
+                  <Label>Value (PHP)</Label>
                   <div className="text-2xl font-bold h-10 flex items-center">
-                    ${usdValue.toFixed(2)}
+                    ₱{phpValue.toFixed(2)}
                   </div>
                 </div>
               </div>
               <div className="text-sm text-muted-foreground">
-                Conversion Rate: 1 {TOKEN_NAME} = ${TOKEN_TO_USD_RATE.toFixed(2)} USD
+                Conversion Rate: 1 {TOKEN_NAME} = ₱{TOKEN_TO_PHP_RATE.toFixed(2)} PHP
               </div>
             </CardContent>
             <CardFooter>
@@ -163,7 +163,7 @@ export default function TalentEarningsPage() {
        <Card>
         <CardHeader>
           <CardTitle>Monthly Earnings Chart</CardTitle>
-          <CardDescription>Your earnings in USD for the last 6 months.</CardDescription>
+          <CardDescription>Your earnings in PHP for the last 6 months.</CardDescription>
         </CardHeader>
         <CardContent>
            <ChartContainer config={chartConfig} className="h-[250px] w-full">
@@ -176,7 +176,7 @@ export default function TalentEarningsPage() {
                 axisLine={false}
               />
               <YAxis
-                tickFormatter={(value) => `$${value}`}
+                tickFormatter={(value) => `₱${value}`}
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
@@ -193,3 +193,5 @@ export default function TalentEarningsPage() {
     </div>
   );
 }
+
+    
