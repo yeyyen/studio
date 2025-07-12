@@ -78,7 +78,7 @@ export function AppSidebarContent({ role }: { role: 'talent' | 'client' }) {
               <path d="M2 12l10 5 10-5"></path>
             </svg>
           <h1 className="text-xl font-semibold text-sidebar-foreground font-headline">
-            Co-Lance
+             <span className="text-sidebar-primary">CTRL</span><span className="text-sidebar-foreground">CHAIN</span>
           </h1>
         </Link>
       </SidebarHeader>

@@ -23,18 +23,20 @@ export default function HomePage() {
               <path d="M2 17l10 5 10-5"></path>
               <path d="M2 12l10 5 10-5"></path>
             </svg>
-            <h1 className="text-2xl font-bold text-primary font-headline">Co-Lance</h1>
+            <h1 className="text-2xl font-bold font-headline">
+              <span className="text-primary">CTRL</span><span className="text-foreground">CHAIN</span>
+            </h1>
           </Link>
         </div>
       </header>
 
       <main className="flex-grow flex items-center">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-6xl font-extrabold text-primary mb-4 font-headline tracking-tight">
+          <h2 className="text-4xl md:text-6xl font-extrabold text-foreground mb-4 font-headline tracking-tight">
             The Future of Freelancing is Cooperative.
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-12">
-            Co-Lance is a Web3-powered hub where freelancers and clients build, own, and govern together. Your work, your rules, your cooperative.
+            CtrlChain is a Web3-powered hub where freelancers and clients build, own, and govern together. Your work, your rules, your cooperative.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -76,7 +78,7 @@ export default function HomePage() {
       </main>
 
       <footer className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-muted-foreground">
-        <p>&copy; {new Date().getFullYear()} Co-Lance. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} CtrlChain. All rights reserved.</p>
       </footer>
     </div>
   );

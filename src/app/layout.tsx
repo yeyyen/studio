@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { Web3Provider } from '@/components/web3/Web3Provider';
 
 export const metadata: Metadata = {
-  title: 'Co-Lance Web3 Hub',
+  title: 'CtrlChain: A Web3 Cooperative',
   description: 'A Web3 cooperative for freelancers and clients.',
 };
 
