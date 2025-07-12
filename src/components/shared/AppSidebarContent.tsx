@@ -23,6 +23,9 @@ import {
   Users,
   Wallet,
   CalendarClock,
+  MessagesSquare,
+  Bell,
+  DollarSign,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -30,6 +33,8 @@ const talentLinks = [
   { href: "/talent/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/talent/services", label: "My Services", icon: Briefcase },
   { href: "/talent/invites", label: "Job Invites", icon: Users },
+  { href: "/talent/messages", label: "Messages", icon: MessagesSquare },
+  { href: "/talent/earnings", label: "Earnings", icon: DollarSign },
   { href: "/talent/deadlines", label: "Deadlines", icon: CalendarClock },
   { href: "/talent/reviews", label: "Reviews", icon: Star },
   { href: "/talent/pricing-tool", label: "Pricing Tool", icon: Sparkles },
@@ -94,6 +99,15 @@ export function AppSidebarContent({ role }: { role: 'talent' | 'client' }) {
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}
+         <SidebarMenuItem>
+            <SidebarMenuButton
+              className="w-full justify-start mt-2"
+              onClick={handleLogout}
+            >
+              <LogOut className="mr-3 h-5 w-5" />
+              <span>Logout</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
       </SidebarMenu>
 
       <SidebarSeparator />
@@ -112,9 +126,6 @@ export function AppSidebarContent({ role }: { role: 'talent' | 'client' }) {
               user@email.com
             </p>
           </div>
-          <SidebarMenuButton size="icon" className="h-8 w-8 shrink-0" onClick={handleLogout} tooltip="Logout">
-            <LogOut className="h-4 w-4"/>
-          </SidebarMenuButton>
         </div>
       </SidebarFooter>
     </>
