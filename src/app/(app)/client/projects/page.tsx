@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { projects } from "@/lib/data";
-import { Briefcase, Calendar, MessageSquare, DollarSign } from "lucide-react";
+import { Briefcase, Calendar, MessageSquare, DollarSign, XCircle } from "lucide-react";
 import Link from "next/link";
 
 
@@ -58,7 +58,7 @@ const ProjectCard = ({ project }: { project: typeof projects[0] }) => (
                     <Progress value={project.progress} className="h-2" />
                 </div>
             )}
-             <div className="flex items-center justify-between text-sm text-muted-foreground border-t pt-4">
+             <div className="flex items-center justify-between text-sm text-muted-foreground border-t pt-4 mt-4">
                 <div className="flex items-center gap-1">
                     <DollarSign className="w-4 h-4" />
                     <span>Budget: <span className="font-semibold text-foreground">${project.budget.toLocaleString()}</span></span>
@@ -101,14 +101,12 @@ export default function ClientProjectsPage() {
                 ))}
                 {ongoingProjects.length === 0 && (
                     <Card className="flex flex-col items-center justify-center py-12 text-center lg:col-span-2">
-                        <CardContent>
-                            <Briefcase className="w-12 h-12 mx-auto text-muted-foreground" />
-                            <h3 className="mt-4 text-lg font-medium">No Ongoing Projects</h3>
-                            <p className="text-sm text-muted-foreground mt-1">Start a new project by hiring a freelancer.</p>
-                            <Button asChild className="mt-4">
-                                <Link href="/client/dashboard">Find Talent</Link>
-                            </Button>
-                        </CardContent>
+                        <Briefcase className="w-12 h-12 mx-auto text-muted-foreground" />
+                        <h3 className="mt-4 text-lg font-medium">No Ongoing Projects</h3>
+                        <p className="text-sm text-muted-foreground mt-1">Start a new project by hiring a freelancer.</p>
+                        <Button asChild className="mt-4">
+                            <Link href="/client/dashboard">Find Talent</Link>
+                        </Button>
                     </Card>
                 )}
             </div>
@@ -120,11 +118,9 @@ export default function ClientProjectsPage() {
                 ))}
                 {completedProjects.length === 0 && (
                     <Card className="flex flex-col items-center justify-center py-12 text-center lg:col-span-2">
-                         <CardContent>
-                            <Calendar className="w-12 h-12 mx-auto text-muted-foreground" />
-                            <h3 className="mt-4 text-lg font-medium">No Completed Projects Yet</h3>
-                            <p className="text-sm text-muted-foreground mt-1">Completed projects will appear here.</p>
-                        </CardContent>
+                        <Calendar className="w-12 h-12 mx-auto text-muted-foreground" />
+                        <h3 className="mt-4 text-lg font-medium">No Completed Projects Yet</h3>
+                        <p className="text-sm text-muted-foreground mt-1">Completed projects will appear here.</p>
                     </Card>
                 )}
             </div>
@@ -136,11 +132,9 @@ export default function ClientProjectsPage() {
                 ))}
                 {cancelledProjects.length === 0 && (
                     <Card className="flex flex-col items-center justify-center py-12 text-center lg:col-span-2">
-                        <CardContent>
-                            <Briefcase className="w-12 h-12 mx-auto text-muted-foreground" />
-                            <h3 className="mt-4 text-lg font-medium">No Cancelled Projects</h3>
-                            <p className="text-sm text-muted-foreground mt-1">Any cancelled projects will be shown here.</p>
-                        </CardContent>
+                        <XCircle className="w-12 h-12 mx-auto text-muted-foreground" />
+                        <h3 className="mt-4 text-lg font-medium">No Cancelled Projects</h3>
+                        <p className="text-sm text-muted-foreground mt-1">Any cancelled projects will be shown here.</p>
                     </Card>
                 )}
             </div>
