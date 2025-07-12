@@ -25,6 +25,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               {/* Could add breadcrumbs or page title here */}
             </div>
             <div className="flex items-center gap-4">
+              <Button variant="ghost" size="icon">
+                <Mail className="h-5 w-5" />
+                <span className="sr-only">Messages</span>
+              </Button>
                <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="relative">
