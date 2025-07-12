@@ -10,7 +10,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const role = pathname.startsWith('/talent') ? 'talent' : 'client'
+  const role = pathname.startsWith('/talent') || pathname.startsWith('/governance') ? 'talent' : 'client'
 
   return (
     <SidebarProvider>
