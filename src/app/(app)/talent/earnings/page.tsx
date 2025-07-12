@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Wallet, Landmark, ArrowRight, LineChart, BadgeCheck, Loader2 } from "lucide-react";
+import { Wallet, Landmark, ArrowRight, LineChart, BadgeCheck } from "lucide-react";
 import {
   ChartConfig,
   ChartContainer,
@@ -17,6 +17,7 @@ import {
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { useToast } from "@/hooks/use-toast";
 import { WithdrawalDialog } from "@/components/talent/WithdrawalDialog";
+import { WithdrawalReceiptDialog, type ReceiptData } from "@/components/talent/WithdrawalReceiptDialog";
 
 const TOKEN_NAME = "CLT";
 const TOKEN_TO_PHP_RATE = 1.00;
@@ -50,6 +51,9 @@ export default function TalentEarningsPage() {
   const [tokenAmount, setTokenAmount] = useState("");
   const [isWithdrawing, setIsWithdrawing] = useState(false);
   const [showWithdrawalDialog, setShowWithdrawalDialog] = useState(false);
+  const [showReceiptDialog, setShowReceiptDialog] = useState(false);
+  const [receiptData, setReceiptData] = useState<ReceiptData | null>(null);
+
   const { toast } = useToast();
   const phpValue = (parseFloat(tokenAmount) || 0) * TOKEN_TO_PHP_RATE;
 
@@ -70,14 +74,22 @@ export default function TalentEarningsPage() {
     setIsWithdrawing(true);
     // Simulate API call for withdrawal
     setTimeout(() => {
+      const withdrawnAmount = parseFloat(tokenAmount) || 0;
+      const finalPhpValue = withdrawnAmount * TOKEN_TO_PHP_RATE;
+
+      const newReceiptData = {
+        amount: finalPhpValue,
+        bank: bank,
+        transactionId: `txn-${Math.random().toString(36).substring(2, 9)}`,
+        date: new Date(),
+        fee: TRANSACTION_FEE,
+      };
+      
+      setReceiptData(newReceiptData);
       setIsWithdrawing(false);
       setShowWithdrawalDialog(false);
-      const withdrawnPhpValue = (parseFloat(tokenAmount) || 0) * TOKEN_TO_PHP_RATE;
+      setShowReceiptDialog(true);
       setTokenAmount("");
-      toast({
-        title: "Withdrawal Successful!",
-        description: `₱${withdrawnPhpValue.toFixed(2)} is being processed to your ${bank} account and will arrive within 3-5 business days.`,
-      });
     }, 1500);
   };
 
@@ -93,10 +105,17 @@ export default function TalentEarningsPage() {
         onConfirm={handleConfirmWithdraw}
         isWithdrawing={isWithdrawing}
       />
+      {receiptData && (
+        <WithdrawalReceiptDialog
+            open={showReceiptDialog}
+            onOpenChange={setShowReceiptDialog}
+            receipt={receiptData}
+        />
+      )}
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold font-headline flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 text-accent"><path d="M12 12c-2-2.3-2-6.3.3-8.5 2.2-2.1 5.6-2.1 7.8-.1 2.2 2.1 2.2 5.9 0 8-2.2 2.1-5.6 2.1-7.8 0z"/><path d="M12 12c2 2.3 2 6.3-.3 8.5-2.2 2.1-5.6 2.1-7.8.1-2.2-2.1-2.2-5.9 0 8 2.2-2.1 5.6-2.1 7.8 0z"/><path d="M12 22V2"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 text-accent"><path d="M12 12c-2-2.3-2-6.3.3-8.5 2.2-2.1 5.6-2.1 7.8-.1 2.2 2.1 2.2 5.9 0 8-2.2 2.1-5.6 2.1 7.8 0z"/><path d="M12 12c2 2.3 2 6.3-.3 8.5-2.2 2.1-5.6 2.1-7.8.1-2.2-2.1-2.2-5.9 0 8 2.2-2.1 5.6-2.1 7.8 0z"/><path d="M12 22V2"/></svg>
             Earnings & Payouts
           </h1>
           <p className="text-muted-foreground">Track your earnings, convert tokens, and manage payouts.</p>
